@@ -3,6 +3,7 @@ from enum import Enum
 class Piece(Enum):
     O = 0
     X = 1
+    EMPTY = -99999
 
 class Condition(Enum):
     O_Won = 1
@@ -14,7 +15,7 @@ class Condition(Enum):
 class Board:
     def __init__(self, size):
         self.size = size
-        self.board = [[-99999 for _ in range(size)] for _ in range(size)]
+        self.board = [[Piece.EMPTY for _ in range(size)] for _ in range(size)]
 
         # set of tuples to check available spots
         self.available_spots = {
@@ -37,20 +38,18 @@ class Board:
     
     # check if there is a tie or win for either pieces
     def check_condition_board(self):
-        
-        
         # check all rows first 
         for i in range(self.size):
-            if sum(self.board[i]) == 3:
+            if sum([piece.value for piece in self.board[i]]) == 3:
                 return Condition.O_Won
-            if sum(self.board[i]) == 0:
+            if sum([piece.value for piece in self.board[i]]) == 0:
                 return Condition.X_Won
         
         # check all cols
         for i in range(self.size):
             curr_sum = 0
             for j in range(self.size):
-                curr_sum += self.board[j][i]
+                curr_sum += self.board[j][i].value
             
             if curr_sum == 3:
                 return Condition.O_Won
@@ -65,7 +64,7 @@ class Board:
         curr_sum = 0
         while i < self.size:
             while j < self.size:
-                curr_sum += self.board[i][j]
+                curr_sum += self.board[i][j].value
                 i+=1
                 j+=1
 
@@ -79,8 +78,8 @@ class Board:
         j = 0
         curr_sum = 0
         while i >= 0:
-            while j >= 0:
-                curr_sum += self.board[i][j]
+            while j < self.size:
+                curr_sum += self.board[i][j].value
                 i-=1
                 j+=1
 
