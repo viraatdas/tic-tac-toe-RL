@@ -139,8 +139,13 @@ class RandomAgent:
                 self.wins+=1
 
 class SmarterAgent:
-    def __init__(self):
-        pass
+    def __init__(self, board, piece):
+        self.board = board
+        self.total_games = 0
+        self.wins = 0
+        self.piece = piece
+    
+    
 
 
 board = Board(3)
