@@ -13,7 +13,7 @@ class Condition(Enum):
 class Board:
     def __init__(self, size):
         self.size = size
-        self.board = [[0 for _ in range(size)] for _ in range(size)]
+        self.board = [[-1 for _ in range(size)] for _ in range(size)]
 
         # set of tuples to check available spots
         self.available_spots = {
@@ -30,7 +30,8 @@ class Board:
             raise ValueError(f"(x,y) is incorrect")
         
         self.board[x][y] = self.curr_piece_turn
-        self.curr_piece_turn = Piece.X if self.curr_piece_turn == self.Piece.O else Piece.O
+        self.curr_piece_turn = Piece.X if self.curr_piece_turn == Piece.O else Piece.O
+        self.available_spots.remove((x,y))
 
     def inspect_board(self):
         # Return a list of all pieces on the board
@@ -46,6 +47,9 @@ class Board:
     
     def get_available_spots(self):
         return self.available_spots
+
+    def get_board(self):
+        return self.board
 
 
 board = Board(3)
