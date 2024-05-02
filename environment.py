@@ -138,21 +138,28 @@ class RandomAgent:
             if condition == Condition.O_Won:
                 self.wins+=1
 
+        return condition
+
 class SmarterAgent:
     def __init__(self, board, piece):
         self.board = board
         self.total_games = 0
         self.wins = 0
         self.piece = piece
+
     
     
+
 
 
 board = Board(3)
 O_agent = RandomAgent(board, Piece.O)
 X_agent = RandomAgent(board, Piece.X)
 
-O_agent.move()
-X_agent.move()
+
+condition = Condition.CONTINUE
+
+
+
 
 
