@@ -107,7 +107,7 @@ class Board:
         return "Board: size = %d\n%s" % (self.size, self.board)
     
 
-# Define RL Agent
+# Define RL Agents
 
 # Agent will randomly place a piece anywhere on the board
 class RandomAgent:
@@ -126,16 +126,16 @@ class RandomAgent:
         random_x, random_y = random.choices(list(available_spots), k=1)[0]
         condition = board.add_piece(random_x, random_y)
 
-
+        # game ended here 
         if condition == Condition.TIE or Condition.O_Won or Condition.X_Won:
             self.total_games+=1
         
-        if self.piece == Piece.O:
-            if condition == Condition.O_Won:
-                self.wins+=1
-        elif self.piece == Piece.X:
-            if condition == Condition.O_Won:
-                self.wins+=1
+            if self.piece == Piece.O:
+                if condition == Condition.O_Won:
+                    self.wins+=1
+            elif self.piece == Piece.X:
+                if condition == Condition.X_Won:
+                    self.wins+=1
 
         return condition
 
@@ -154,15 +154,18 @@ agent = [O_agent, X_agent]
 
 
 total_games = 20
-for _ in range(total_games):
+for j in range(total_games):
     board = Board(3)
     condition = Condition.CONTINUE
     i = 0
     while condition == Condition.CONTINUE:
-        condition = agent[0%2].move(board)
+        condition = agent[i%2].move(board)
         i+=1
+    print(condition)
+    print(board)
     
 
 
 print(f"O won: {O_agent.wins}")
 print(f"X won: {X_agent.wins}")
+print(f"Num Ties: {O_agent.total_games - (O_agent.wins + X_agent.wins)}")
