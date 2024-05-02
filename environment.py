@@ -1,0 +1,40 @@
+from enum import Enum
+
+class Piece(Enum):
+    O = 0
+    X = 1
+
+class Condition(Enum):
+    O_Won = 1
+    X_Won = -1
+    TIE = 0
+
+# Define the game environment
+class Board:
+    def __init__(self, size):
+        self.size = size
+        self.board = [[0 for _ in range(size)] for _ in range(size)]
+
+        # O starts first
+        self.curr_piece_turn = Piece.O
+
+    def add_piece(self, x, y):
+        # Add the piece to the board
+        self.board[x][y] = self.curr_piece_turn
+        self.curr_piece_turn = Piece.X if self.curr_piece_turn == self.Piece.O else Piece.O
+
+    def inspect_board(self):
+        # Return a list of all pieces on the board
+        pieces = []
+        for y in range(self.size):
+            for x in range(self.size):
+                if self.board[y][x] == 1:
+                    pieces.append((y, x))
+        return pieces
+    
+    def check_condition_board(self):
+        pass
+
+
+board = Board(3)
+board.add_piece
