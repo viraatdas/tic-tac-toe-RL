@@ -111,21 +111,20 @@ class Board:
 
 # Agent will randomly place a piece anywhere on the board
 class RandomAgent:
-    def __init__(self, board, piece):
-        self.board = board
+    def __init__(self, piece):
         self.total_games = 0
         self.wins = 0
         self.piece = piece
         
     
-    def move(self):
-        if not self.board.get_available_spots():
+    def move(self, board):
+        if not board.get_available_spots():
             raise ValueError("No available spots")
         
-        available_spots = self.board.get_available_spots()
+        available_spots = board.get_available_spots()
         
         random_x, random_y = random.choices(list(available_spots), k=1)[0]
-        condition = self.board.add_piece(random_x, random_y)
+        condition = board.add_piece(random_x, random_y)
 
 
         if condition == Condition.TIE or Condition.O_Won or Condition.X_Won:
@@ -141,25 +140,29 @@ class RandomAgent:
         return condition
 
 class SmarterAgent:
-    def __init__(self, board, piece):
+    def __init__(self, piece):
         self.board = board
         self.total_games = 0
         self.wins = 0
         self.piece = piece
 
+
+O_agent = RandomAgent(Piece.O)
+X_agent = RandomAgent(Piece.X)
+
+agent = [O_agent, X_agent]
+
+
+total_games = 20
+for _ in range(total_games):
+    board = Board(3)
+    condition = Condition.CONTINUE
+    i = 0
+    while condition == Condition.CONTINUE:
+        condition = agent[0%2].move(board)
+        i+=1
     
-    
 
 
-
-board = Board(3)
-O_agent = RandomAgent(board, Piece.O)
-X_agent = RandomAgent(board, Piece.X)
-
-
-condition = Condition.CONTINUE
-
-
-
-
-
+print(f"O won: {O_agent.wins}")
+print(f"X won: {X_agent.wins}")
