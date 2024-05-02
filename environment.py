@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 
 class Piece(Enum):
     O = 0
@@ -107,11 +108,38 @@ class Board:
     
 
 # Define RL Agent
-class Agent:
+
+# Agent will randomly place a piece anywhere on the board
+class RandomAgent:
+    def __init__(self, board, piece):
+        self.board = board
+        self.total_games = 0
+        self.wins = 0
+        self.piece = piece
+        
+    
+    def move(self):
+        available_spots = self.board.get_available_spots()
+        random_x, random_y = random.choices(available_spots, k=1)
+        condition = self.board.add_piece(random_x, random_y)
+
+
+        if condition == Condition.TIE or Condition.O_Won or Condition.X_Won:
+            self.total_games+=1
+        
+        if self.piece == Piece.O:
+            if condition == Condition.O_Won:
+                self.wins+=1
+        elif self.piece == Piece.X:
+            if condition == Condition.O_Won:
+                self.wins+=1
+
+class SmarterAgent:
     def __init__(self):
         pass
 
 
-O_agent = Agent()
-X_agent = Agent()
 board = Board(3)
+O_agent = SmarterAgent(board, Piece.Y)
+X_agent = RandomAgent(board, Piece.X)
+
