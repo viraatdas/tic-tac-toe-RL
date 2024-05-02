@@ -119,8 +119,12 @@ class RandomAgent:
         
     
     def move(self):
+        if not self.board.get_available_spots():
+            raise ValueError("No available spots")
+        
         available_spots = self.board.get_available_spots()
-        random_x, random_y = random.choices(available_spots, k=1)
+        
+        random_x, random_y = random.choices(list(available_spots), k=1)[0]
         condition = self.board.add_piece(random_x, random_y)
 
 
@@ -140,6 +144,10 @@ class SmarterAgent:
 
 
 board = Board(3)
-O_agent = SmarterAgent(board, Piece.Y)
+O_agent = RandomAgent(board, Piece.O)
 X_agent = RandomAgent(board, Piece.X)
+
+O_agent.move()
+X_agent.move()
+
 
