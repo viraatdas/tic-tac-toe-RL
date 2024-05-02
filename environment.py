@@ -113,6 +113,8 @@ class Board:
 class RandomAgent:
     def __init__(self, piece):
         self.piece = piece
+        self.total_games = 0
+        self.wins = 0
         
     
     def move(self, board):
