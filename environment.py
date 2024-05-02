@@ -15,11 +15,20 @@ class Board:
         self.size = size
         self.board = [[0 for _ in range(size)] for _ in range(size)]
 
+        # set of tuples to check available spots
+        self.available_spots = {
+            (i, j) for i in range(size) for j in range(size)
+        }
+
         # O starts first
         self.curr_piece_turn = Piece.O
 
     def add_piece(self, x, y):
         # Add the piece to the board
+        
+        if (x,y) not in self.available_spots:
+            raise ValueError(f"(x,y) is incorrect")
+        
         self.board[x][y] = self.curr_piece_turn
         self.curr_piece_turn = Piece.X if self.curr_piece_turn == self.Piece.O else Piece.O
 
@@ -34,7 +43,9 @@ class Board:
     
     def check_condition_board(self):
         pass
+    
+    def get_available_spots(self):
+        return self.available_spots
 
 
 board = Board(3)
-board.add_piece
