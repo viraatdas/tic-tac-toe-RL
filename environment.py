@@ -50,6 +50,9 @@ class Board:
 
     def get_board(self):
         return self.board
+    
+    def __repr__(self):
+        return "Board: size = %d\n%s" % (self.size, self.board)
 
 
 board = Board(3)
